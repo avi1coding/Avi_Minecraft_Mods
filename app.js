@@ -20,10 +20,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // create a connection pool to the MySQL database
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'avisql9$',
-    database: 'minecraft_mods'
+    host: 'avimehta-avimehta.k.aivencloud.com',
+    user: 'avnadmin',
+    password: process.env.DB_PASSWORD || '<REDACTED>',
+    database: 'minecraft_mods',
+    port: 18649,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 // connect to the database
@@ -61,7 +65,23 @@ app.post('/addplayer', (req, res) => {
             return;
         }
         console.log('User registered successfully:', result);
-        res.send('<h1>User registered successfully</h1><a href="/">Go back</a>');
+        res.send(`
+
+<html>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body style="background-color: #006400; color: white; text-align: center; padding-top: 50px;">
+<h1 class = "text-center display-1">User registered successfully</h1>
+
+<a href="/" class="btn btn-primary btn-lg mt-4">Click to Go Back</a>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
+            
+            
+            
+            `);
     });
 });
 
